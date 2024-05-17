@@ -27,7 +27,7 @@ public class TravelService {
         Thread.sleep(5000);
 
         // Close Advertisement
-        driver.findElement(By.xpath("/html/body/div[4]/div[2]/button")).click();
+//        driver.findElement(By.xpath("/html/body/div[4]/div[2]/button")).click();
         Thread.sleep(1000);
 
         // Select Destination
