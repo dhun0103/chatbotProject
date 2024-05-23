@@ -2,6 +2,12 @@ spring:
   application:
     name: chatbotProject
 
+  profiles:
+    inclue: secret
+
+  config:
+    import: classpath:application-secret.yml
+
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url:

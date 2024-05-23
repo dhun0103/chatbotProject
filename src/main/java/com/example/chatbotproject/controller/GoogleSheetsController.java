@@ -20,5 +20,4 @@ public class GoogleSheetsController {
 
         return googleSheetsService.getCellData();
     }
-
 }
