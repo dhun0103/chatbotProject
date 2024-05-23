@@ -14,10 +14,11 @@ import java.io.IOException;
 public class GoogleSheetsController {
 
     private final GoogleSheetsService googleSheetsService;
+    private final TravelController travelController;
 
     @GetMapping("/googlesheets")
-    public String getGoogleSheets() throws IOException {
+    public void getGoogleSheets() throws IOException, InterruptedException {
 
-        return googleSheetsService.getCellData();
+        googleSheetsService.getCellData();
     }
 }

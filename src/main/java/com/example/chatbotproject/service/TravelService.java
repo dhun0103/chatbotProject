@@ -82,13 +82,13 @@ public class TravelService {
                     String info = infoElement.getText();
                     String[] arr = info.split("\\n");
                     System.out.println(arr.length);
-                    atravel.setPackageName(city);
-                    atravel.setDuration(arr[1]);
-                    atravel.setDepartureFrom(arr[2]);
-                    atravel.setAirline(arr[3]);
-                    atravel.setDetails(arr[4]);
-                    atravel.setPriceNew(arr[arr.length - 2]);
-                    atravel.setPriceOld(arr[arr.length - 1]);
+//                    atravel.setPackageName(city);
+//                    atravel.setDuration(arr[1]);
+//                    atravel.setDepartureFrom(arr[2]);
+//                    atravel.setAirline(arr[3]);
+//                    atravel.setDetails(arr[4]);
+//                    atravel.setPriceNew(arr[arr.length - 2]);
+//                    atravel.setPriceOld(arr[arr.length - 1]);
 
                     travelRepository.save(atravel);
 

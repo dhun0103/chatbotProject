@@ -14,19 +14,21 @@ public class Travel {
     private Long id;
 
     @Column(nullable = false)
-    private String packageName;
+    private String destination;
+    @Column(nullable = false)
+    private String travelMonth;
+    @Column(nullable = false)
+    private String travelDay;
+    @Column(nullable = false)
+    private String airport;
     @Column(nullable = false)
     private String duration;
     @Column(nullable = false)
-    private String departureFrom;
+    private String expense;
     @Column(nullable = false)
-    private String airline;
+    private String travelPreference;
     @Column(nullable = false)
-    private String details;
+    private String accommodation;
     @Column(nullable = false)
-    private String priceNew;
-    @Column(nullable = false)
-    private String priceOld;
-
-
+    private String email;
 }
