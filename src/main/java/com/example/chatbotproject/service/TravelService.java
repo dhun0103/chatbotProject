@@ -177,7 +177,7 @@ public class TravelService {
                 travelPackage.setPrice(packageContent[packageContent.length - 2]);
                 travelPackage.setLink(href);
 
-                travelPackageRepository.save(travelPackage);
+//                travelPackageRepository.save(travelPackage);
                 travelPackageList.add(travelPackage);
             } catch (Exception e) { // Handle exception
                 e.printStackTrace();
