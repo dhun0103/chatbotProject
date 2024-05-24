@@ -1,5 +1,6 @@
 package com.example.chatbotproject.service;
 
+import com.example.chatbotproject.controller.TravelController;
 import com.example.chatbotproject.domain.Answer;
 import com.example.chatbotproject.domain.Travel;
 import com.example.chatbotproject.repository.AnswerRepository;
@@ -13,9 +14,11 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -26,8 +29,10 @@ public class GoogleSheetsService {
     private static final String CREDENTIALS_FILE_PATH = "googlesheet/travel-chatbot-423600-c4dd23c0e513.json";
     private static String SPREADSHEET_ID = "1fMS1FTQ0AeneF8NfGUjoCIWCgBwnwdjao5GsGrIrhOA";
     private static Sheets sheetsService;
+    private final TravelController travelController;
     private final TravelRepository travelRepository;
     private final AnswerRepository answerRepository;
+
 
 
     private static Sheets getSheetsService() throws IOException {
@@ -41,7 +46,7 @@ public class GoogleSheetsService {
         return sheetsService;
     }
 
-    public void getCellData() throws IOException {
+    public void getCellData() throws IOException, InterruptedException {
 
         String range = "Sheet1!A:W";
         Sheets service = getSheetsService();
@@ -57,10 +62,16 @@ public class GoogleSheetsService {
         }
 
         for (int i = 1; i < values.size(); i++) {
-
             List<Object> row = values.get(i);
 
+            String timeStamp = (String) row.get(0);
+            Optional<Travel> existingTravel = travelRepository.findByTimeStamp(timeStamp);
+            if(existingTravel.isPresent()){
+                continue;
+            }
+
             Travel travel = new Travel();
+            travel.setTimeStamp((String) row.get(0)); // Column A
             travel.setDestination((String) row.get(1)); // Column B
             travel.setTravelMonth((String) row.get(2)); // Column C
             travel.setTravelDay((String) row.get(3)); // Column D
@@ -71,6 +82,7 @@ public class GoogleSheetsService {
             travel.setAccommodation((String) row.get(16)); // Column Q
             travel.setEmail((String) row.get(22)); // Column Q
             travelRepository.save(travel);
+            travelController.getPackage(travel);
 
             Answer answer = new Answer();
             answer.setTimeStamp((String) row.get(0)); // Column A

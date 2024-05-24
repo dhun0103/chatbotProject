@@ -1,6 +1,7 @@
 package com.example.chatbotproject.service;
 
 import com.example.chatbotproject.domain.EmailMessage;
+import com.example.chatbotproject.domain.TravelPackage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    public ResponseEntity sendMail() {
+    public void sendMail(List<TravelPackage> travelPackageList) {
 
         String email = "arrrrr180@gmail.com";
 
@@ -39,7 +42,7 @@ public class EmailService {
 
             log.info("Success");
 
-            return ResponseEntity.ok().build();
+            return;
 
         } catch (MessagingException e) {
             log.info("fail");

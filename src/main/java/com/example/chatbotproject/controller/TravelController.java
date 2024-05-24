@@ -1,5 +1,6 @@
 package com.example.chatbotproject.controller;
 
+import com.example.chatbotproject.domain.Travel;
 import com.example.chatbotproject.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TravelController {
 
     private final TravelService travelService;
+    private final EmailController emailController;
 
     @GetMapping("/travel")
-    public String getPackage() throws InterruptedException {
+    public void getPackage(Travel travel) throws InterruptedException {
 
-        return travelService.getPackage();
+        travelService.getPackage(travel);
     }
-
 }

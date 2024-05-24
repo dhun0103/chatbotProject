@@ -14,6 +14,8 @@ public class Travel {
     private Long id;
 
     @Column(nullable = false)
+    private String timeStamp;
+    @Column(nullable = false)
     private String destination;
     @Column(nullable = false)
     private String travelMonth;

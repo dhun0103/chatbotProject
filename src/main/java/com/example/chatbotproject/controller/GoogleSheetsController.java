@@ -14,7 +14,6 @@ import java.io.IOException;
 public class GoogleSheetsController {
 
     private final GoogleSheetsService googleSheetsService;
-    private final TravelController travelController;
 
     @GetMapping("/googlesheets")
     public void getGoogleSheets() throws IOException, InterruptedException {
