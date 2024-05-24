@@ -42,20 +42,23 @@ public class TravelService {
         Thread.sleep(1000);
 
         // Enter Destination
-//        String city = travel.getDestination();
-        String city = "오사카";
+        String city = travel.getDestination();
+//        String city = "오사카";
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[2]/div/div[1]/div[2]/div/label/input")).sendKeys(city);
         Thread.sleep(1000);
 
         // Click Departure Date
-//        String a = travel.getTravelMonth();
-//        String b = travel.getTravelDay();
-//        String[] arr = b.split("~");
+        String a = travel.getTravelMonth();
+        String b = travel.getTravelDay();
+        String[] arr = b.split("~");
 
-//        String startDay = String.format("%02d%02d", Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[0]));
-//        String endDay = String.format("%02d%02d", Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[1].substring(0, arr[1].length())));
-        String startDay = "240708";
-        String endDay = "240714";
+        String startDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[0]));
+        String endDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[1].substring(0, arr[1].length() - 1)));
+//        String startDay = "240708";
+//        String endDay = "240714";
+
+        System.out.println(startDay);
+        System.out.println(endDay);
 
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[3]/div/div/div[1]/div/div/button")).click(); //출발 날짜
         // 요소가 클릭 가능할 때까지 기다림
@@ -98,15 +101,15 @@ public class TravelService {
         driver.findElement(By.xpath("//*[@id='bottom-sheet-kind-condition']/section/section/div/button[2]")).click();
 
         // Choose Airport
-//        String airport = travel.getAirport();
-//        int airportKey = switch (airport) {
-//            case "인천, 김포" -> 1;
-//            case "부산" -> 2;
-//            case "대구" -> 3;
-//            case "청주" -> 4;
-//            default -> 6;
-//        };
-        int airportKey = 1;
+        String airport = travel.getAirport();
+        int airportKey = switch (airport) {
+            case "인천, 김포" -> 1;
+            case "부산" -> 2;
+            case "대구" -> 3;
+            case "청주" -> 4;
+            default -> 6;
+        };
+//        int airportKey = 1;
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[3]/div/div/div[4]/div/button")).click();
         driver.findElement(By.xpath("//*[@id='bottom-sheet-airports-condition']/section/section/div/button[" + airportKey + "]")).click();
 
@@ -118,16 +121,16 @@ public class TravelService {
 //        driver.findElement(By.cssSelector("body > div.ab-iam-root.v3.ab-animate-in.ab-animate-out.ab-effect-modal.ab-show > div.ab-in-app-message.ab-background.ab-modal-interactions.graphic.ab-clickable.ab-modal.ab-centered > button")).click();
 
         //duration
-//        String duration = travel.getDuration();
-//        String[] temp = duration.split(" ");
-//        String real = temp[0] + temp[1];
-        String duration = "3박4일";
-        driver.findElement(By.xpath("//p[text()=\"" + duration + "\"]")).click();
+        String duration = travel.getDuration();
+        String[] temp = duration.split(" ");
+        String real = temp[0] + temp[1];
+//        String duration = "3박4일";
+        driver.findElement(By.xpath("//p[text()=\"" + real + "\"]")).click();
         Thread.sleep(500);
 
         //expense
-//        String expense = travel.getExpense();
-        String expense = "200-250만원";
+        String expense = travel.getExpense();
+//        String expense = "200-250만원";
         driver.findElement(By.xpath("//p[text()=\"" + expense + "\"]")).click();
 
 
@@ -168,12 +171,6 @@ public class TravelService {
                 String info = infoElement.getText();
                 String[] packageContent = info.split("\\n");
 
-//                for (String thing : packageContent) {
-//                    System.out.println(thing);
-//                }
-//                System.out.println("URL: " + href);
-//                System.out.println("---------------------------------------------------끝");
-
                 TravelPackage travelPackage = new TravelPackage();
 
                 travelPackage.setTitle(packageContent[4]);
@@ -186,7 +183,7 @@ public class TravelService {
                 e.printStackTrace();
             }
         }
-        emailController.sendPasswordMail(travelPackageList);
+        emailController.sendPasswordMail(travelPackageList, travel.getEmail());
 
         // Close the browser
         driver.quit();

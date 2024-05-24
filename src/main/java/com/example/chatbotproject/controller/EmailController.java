@@ -17,8 +17,8 @@ public class EmailController {
     private final EmailService emailService;
 
     @GetMapping("/email")
-    public void sendPasswordMail(List<TravelPackage> travelPackageList) {
+    public void sendPasswordMail(List<TravelPackage> travelPackageList, String email) {
 
-        emailService.sendMail(travelPackageList);
+        emailService.sendMail(travelPackageList, email);
     }
 }

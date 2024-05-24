@@ -21,5 +21,5 @@ public class EmailMessage {
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
-    private String message;
+    private StringBuilder message;
 }
