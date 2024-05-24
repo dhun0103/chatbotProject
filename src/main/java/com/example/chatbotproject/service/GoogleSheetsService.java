@@ -82,7 +82,6 @@ public class GoogleSheetsService {
             travel.setAccommodation((String) row.get(16)); // Column Q
             travel.setEmail((String) row.get(22)); // Column Q
             travelRepository.save(travel);
-            travelController.getPackage(travel);
 
             Answer answer = new Answer();
             answer.setTimeStamp((String) row.get(0)); // Column A
@@ -100,6 +99,8 @@ public class GoogleSheetsService {
             answer.setService((String) row.get(20)); // Column U
             answer.setPrice((String) row.get(21)); // Column V
             answerRepository.save(answer);
+
+            travelController.getPackage(travel);
         }
     }
 }
