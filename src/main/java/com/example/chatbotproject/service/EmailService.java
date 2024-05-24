@@ -24,7 +24,7 @@ public class EmailService {
         String title = "일본여행 챗봇 - 패키지 추천";
 
         StringBuilder content = new StringBuilder();
-        int cnt = 0;
+        int cnt = 1;
         for(TravelPackage travelPackage : travelPackageList){
             content.append(cnt).append("번.\n");
             cnt++;
