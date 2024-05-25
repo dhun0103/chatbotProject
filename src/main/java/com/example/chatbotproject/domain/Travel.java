@@ -13,24 +13,24 @@ public class Travel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "1.타임스탬프")
     private String timeStamp;
-    @Column(nullable = false)
+    @Column(name = "2.목적지")
     private String destination;
-    @Column(nullable = false)
+    @Column(name = "3-1.몇월")
     private String travelMonth;
-    @Column(nullable = false)
+    @Column(name = "3-2.며칠")
     private String travelDay;
-    @Column(nullable = false)
+    @Column(name = "4.출발공항")
     private String airport;
-    @Column(nullable = false)
+    @Column(name = "5.여행기간")
     private String duration;
-    @Column(nullable = false)
+    @Column(name = "6.여행경비")
     private String expense;
-    @Column(nullable = false)
+    @Column(name = "7.여행취향")
     private String travelPreference;
-    @Column(nullable = false)
+    @Column(name = "8.숙소퀄리티")
     private String accommodation;
-    @Column(nullable = false)
+    @Column(name = "9.이메일")
     private String email;
 }

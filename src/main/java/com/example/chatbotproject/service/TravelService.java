@@ -2,7 +2,6 @@ package com.example.chatbotproject.service;
 
 import com.example.chatbotproject.controller.EmailController;
 import com.example.chatbotproject.domain.TravelPackage;
-import com.example.chatbotproject.repository.TravelPackageRepository;
 import com.example.chatbotproject.domain.Travel;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -10,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
@@ -22,16 +22,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelService {
 
-    private final TravelPackageRepository travelPackageRepository;
     private final EmailController emailController;
 
     public void getPackage(Travel travel) throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
+//        WebDriver driver = new ChromeDriver();
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver/chromedriver");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
+        WebDriver driver = new ChromeDriver(options);
 
         // Open URL
         driver.get("https://www.tripstore.kr/");
-        Thread.sleep(8000);
+        Thread.sleep(10000);
 
         // Close Advertisement
         driver.findElement(By.xpath("/html/body/div[4]/div[2]/button")).click();
@@ -50,15 +56,20 @@ public class TravelService {
         // Click Departure Date
         String a = travel.getTravelMonth();
         String b = travel.getTravelDay();
-        String[] arr = b.split("~");
+        String startDay = "";
+        String endDay = "";
+        if(b.equals("29일 이상")){
+            startDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt("29"));
+            endDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt("30"));
+        }else{
+            String[] arr = b.split("~");
 
-        String startDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[0]));
-        String endDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[1].substring(0, arr[1].length() - 1)));
+            startDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[0]));
+            endDay = String.format("%02d%02d%02d", 24, Integer.parseInt(a.substring(0, 1)), Integer.parseInt(arr[1].substring(0, arr[1].length() - 1)));
+        }
+
 //        String startDay = "240708";
 //        String endDay = "240714";
-
-        System.out.println(startDay);
-        System.out.println(endDay);
 
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[3]/div/div/div[1]/div/div/button")).click(); //출발 날짜
         // 요소가 클릭 가능할 때까지 기다림
@@ -103,7 +114,7 @@ public class TravelService {
         // Choose Airport
         String airport = travel.getAirport();
         int airportKey = switch (airport) {
-            case "인천, 김포" -> 1;
+            case "인천.김포" -> 1;
             case "부산" -> 2;
             case "대구" -> 3;
             case "청주" -> 4;
@@ -112,6 +123,7 @@ public class TravelService {
 //        int airportKey = 1;
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[3]/div/div/div[4]/div/button")).click();
         driver.findElement(By.xpath("//*[@id='bottom-sheet-airports-condition']/section/section/div/button[" + airportKey + "]")).click();
+        Thread.sleep(1000);
 
         // Perform Search
         driver.findElement(By.xpath("//*[@id='__next']/div[1]/div[5]/ul[1]/a")).click();
@@ -122,10 +134,8 @@ public class TravelService {
 
         //duration
         String duration = travel.getDuration();
-        String[] temp = duration.split(" ");
-        String real = temp[0] + temp[1];
 //        String duration = "3박4일";
-        driver.findElement(By.xpath("//p[text()=\"" + real + "\"]")).click();
+        driver.findElement(By.xpath("//p[text()=\"" + duration + "\"]")).click();
         Thread.sleep(500);
 
         //expense
